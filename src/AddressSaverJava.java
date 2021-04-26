@@ -99,7 +99,6 @@ public class AddressSaverJava {
             reader = new BufferedReader(new FileReader(fileToBeModified));
 
             //Reading all the lines of input text file into oldContent
-
             String line = reader.readLine();
 
             while (line != null)
