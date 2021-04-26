@@ -26,7 +26,6 @@ public class AddressSaverJava {
                 String line = "";
                 try (Stream<String> lines = Files.lines(Paths.get("Address.csv"))) {
                     line = lines.skip(y).findFirst().get();
-                    System.out.println(line);
                 } catch (IOException e) {
                     System.out.println(e);
                 }
@@ -64,36 +63,10 @@ public class AddressSaverJava {
             out.close();
         }
     }
-    public static String getPDF() throws IOException {
-
-        File file = new File("TemplateFile.dat");
-        FileInputStream stream = new FileInputStream(file);
-        byte[] buffer = new byte[8192];
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int bytesRead;
-        while ((bytesRead = stream.read(buffer)) != -1) {
-            baos.write(buffer, 0, bytesRead);
-        }
-        System.out.println("it came back"+baos);
-        byte[] buffer1= baos.toByteArray();
-        String fileName = "Gigachadtest.pdf";
-
-        //stream.close();
-
-
-        FileOutputStream outputStream =
-                new FileOutputStream(fileName);
-
-        outputStream.write(buffer1);
-
-        return fileName;
-
-    }
     public static void copyFile(File sourceFile, File destFile) throws IOException {
         if(!destFile.exists()) {
             destFile.createNewFile();
         }
-
         FileChannel source = null;
         FileChannel destination = null;
         try {
@@ -117,11 +90,8 @@ public class AddressSaverJava {
     public static void modifyFile(String filePath, String oldString, String newString)
     {
         File fileToBeModified = new File(filePath);
-
         String oldContent = "";
-
         BufferedReader reader = null;
-
         FileWriter writer = null;
 
         try
@@ -140,11 +110,9 @@ public class AddressSaverJava {
             }
 
             //Replacing oldString with newString in the oldContent
-
             String newContent = oldContent.replaceAll(oldString, newString);
 
             //Rewriting the input text file with newContent
-
             writer = new FileWriter(fileToBeModified);
 
             writer.write(newContent);
@@ -158,9 +126,7 @@ public class AddressSaverJava {
             try
             {
                 //Closing the resources
-
                 reader.close();
-
                 writer.close();
             }
             catch (IOException e)
@@ -169,5 +135,4 @@ public class AddressSaverJava {
             }
         }
     }
-
 }
