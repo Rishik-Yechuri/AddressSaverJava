@@ -21,15 +21,16 @@ public class AddressSaverJava {
     public static void main(String[] args) throws IOException {
         ArrayList<String> thingsToReplace = new ArrayList<String>(Arrays.asList("<DATE>","<NAME>","<ADDRESS>","<CITY>","<STATE>","<ZIPCODE>"));
         for(int y=1;y<=11;y++) {
+            String line = "";
+            try (Stream<String> lines = Files.lines(Paths.get("Address.csv"))) {
+                line = lines.skip(y).findFirst().get();
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+            String[] replacementInfo = line.split(",");
+            String documentName = replacementInfo[0].substring(0,1) + "_" + replacementInfo[1] + "_JAVA";
             copyFile(new File("SalesLetter.dat"),new File("TemplateFile.dat"));
             for (int x = 0; x < thingsToReplace.size(); x++) {
-                String line = "";
-                try (Stream<String> lines = Files.lines(Paths.get("Address.csv"))) {
-                    line = lines.skip(y).findFirst().get();
-                } catch (IOException e) {
-                    System.out.println(e);
-                }
-                String[] replacementInfo = line.split(",");
                 String stringReplacement = "";
                 switch (thingsToReplace.get(x)) {
                     case "<DATE>":
@@ -57,8 +58,8 @@ public class AddressSaverJava {
             }
             modifyFile("TemplateFile.dat", "<YOURNAME>", "Rishik Yechuri");
             byte[] bytes = Files.readAllBytes(Paths.get("TemplateFile.dat"));
-            String nameOfPDF = "Output" + y;
-            OutputStream out = new FileOutputStream(nameOfPDF);
+           // String nameOfPDF = "Output" + y;
+            OutputStream out = new FileOutputStream(documentName);
             out.write(bytes);
             out.close();
         }
